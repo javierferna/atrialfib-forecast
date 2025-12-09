@@ -1,0 +1,206 @@
+\documentclass[12pt, a4paper]{report}
+
+%==================================================================
+% PACKAGES AND CONFIGURATION
+%==================================================================
+
+%--- Page Layout ---
+\usepackage[vmargin=2.5cm, hmargin=3cm]{geometry}
+\renewcommand{\baselinestretch}{1.15} % Line spacing
+\setlength{\parindent}{0pt} % Remove paragraph indentation
+\parskip=10pt % Space between paragraphs
+
+%--- Fonts and Math ---
+\usepackage{amsmath,amssymb,amsfonts}  % Advanced math formatting
+\usepackage{txfonts}  % TX fonts (heavier weight for title page)
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+%--- Graphics and Colors ---
+\usepackage[table]{xcolor}
+\definecolor{azulUC3M}{RGB}{0,0,102}
+\usepackage{graphicx}
+
+%--- Headers and Footers ---
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+
+%--- Language ---
+\usepackage[english]{babel}
+
+%--- Links ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=azulUC3M,
+    urlcolor=azulUC3M
+}
+
+%--- Title Formatting ---
+\usepackage{titlesec}
+\usepackage{titletoc}
+
+% Chapter formatting (centered, uppercase)
+\titleformat{\chapter}[block]
+  {\large\bfseries\filcenter}
+  {\thechapter.}
+  {5pt}
+  {\MakeUppercase}
+\titlespacing{\chapter}{0pt}{0pt}{*3}
+
+% Chapter TOC entry with dots
+\titlecontents{chapter}
+  [0pt]                                               
+  {}
+  {\contentsmargin{0pt}\thecontentslabel.\enspace}
+  {\contentsmargin{0pt}}                        
+  {\titlerule*[.7pc]{.}\contentspage}                 
+
+% Section formatting
+\titleformat{\section}
+  {\bfseries}
+  {\thesection.}
+  {5pt}
+  {}
+
+% Section TOC entry with dots
+\titlecontents{section}
+  [5pt]                                               
+  {}
+  {\contentsmargin{0pt}\thecontentslabel.\enspace}
+  {\contentsmargin{0pt}}
+  {\titlerule*[.7pc]{.}\contentspage}
+
+% Subsection formatting  
+\titleformat{\subsection}
+  {\normalsize\bfseries}
+  {\thesubsection.}
+  {5pt}
+  {}
+
+% Subsection TOC entry with dots
+\titlecontents{subsection}
+  [10pt]                                               
+  {}
+  {\contentsmargin{0pt}\thecontentslabel.\enspace}
+  {\contentsmargin{0pt}}                        
+  {\titlerule*[.7pc]{.}\contentspage}
+
+%==================================================================
+% BEGIN DOCUMENT
+%==================================================================
+\begin{document}
+
+%--- Front Matter (Roman Numerals) ---
+\pagenumbering{Roman}
+
+%========================= TITLE PAGE =========================
+\begin{titlepage}
+\begin{sffamily}
+\color{azulUC3M}
+\begin{center}
+    
+    %--- Logo ---
+    \makebox[\textwidth][c]{\includegraphics[width=16cm]{logo_UC3M.png}}
+    
+    \vspace{2.5cm}
+    
+    %--- Course Info ---
+    \begin{Large}
+        Machine Learning in Healthcare\\
+        2025-2026\\
+        \vspace{2cm}
+        \textsl{Final Project}
+        \bigskip
+    \end{Large}
+    
+    %--- Project Title ---
+    {\Huge ``Forecasting Intracardiac Electrograms to Identify Arrhythmic Activity in Atrial Fibrillation''}\\
+    \vspace*{0.5cm}
+    \rule{10.5cm}{0.1mm}\\
+    \vspace*{0.9cm}
+    
+    %--- Authors ---
+    {\LARGE 
+        Javier Fernández, Enica Kong, Virginia Fu,\\
+        Sergio Madrid, Aleksander Nowak
+    }\\
+    \vspace*{1cm}
+    
+    %--- Supervisor and Date ---
+    \begin{Large}
+        Tutor\\
+        Gonzalo Ríos\\
+        Madrid, December 2025\\
+    \end{Large}
+
+\end{center}
+\vfill
+\color{black}
+\end{sffamily}
+\end{titlepage}
+
+%--- Blank Page ---
+\newpage
+\thispagestyle{empty}
+\mbox{}
+\newpage
+
+%========================= TABLE OF CONTENTS =========================
+\renewcommand{\contentsname}{\large\bfseries TABLE OF CONTENTS}
+\tableofcontents
+\thispagestyle{fancy}
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+%--- Setup Header/Footer for Main Content ---
+\pagestyle{fancy}
+\fancyhf{} % Clear defaults
+\renewcommand{\headrulewidth}{0pt}
+\rfoot{\thepage} % Page number bottom right
+\fancypagestyle{plain}{\pagestyle{fancy}}
+
+%========================= MAIN CONTENT =========================
+\clearpage
+\pagenumbering{arabic} % Switch to 1, 2, 3...
+
+% 1. Abstract
+% Using \chapter* keeps it unnumbered but we add it to TOC manually
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\textbf{Atrial fibrillation (AF)} is the most common sustained cardiac arrhythmia, driven by regions of complex electrical activity within the atria. \textbf{Intracardiac electrograms (EGMs)} recorded during \textbf{ablation procedures} provide a direct window into these dynamics, yet their interpretation remains challenging due to the high spatial and temporal variability of the signals.
+
+The goal of this project is to apply \textbf{machine learning} and \textbf{deep learning-based forecasting} techniques to predict the temporal evolution of EGM signals. The working hypothesis is that signals that are \textbf{easier to predict} correspond to \textbf{passively activated regions}, while those that are \textbf{harder to forecast} reflect \textbf{active arrhythmic drivers}.
+
+This approach may help identify critical \textbf{ablation sites} and advance more personalised treatment strategies in atrial fibrillation.
+
+% 2. Introduction
+\chapter{Introduction and Problem Description}
+\section{Introduction}
+% [Content goes here]
+
+% 3. Data Description
+\chapter{Data Description}
+% [Content goes here]
+
+% 4. Pipeline
+\chapter{Pipeline and Methods Proposed}
+% [Content goes here]
+
+% 5. Results
+\chapter{Results and Discussion}
+% [Content goes here]
+
+% 6. Conclusions
+\chapter{Conclusions}
+% [Content goes here]
+
+% BibTeX
+\bibliographystyle{ieeetr}
+\bibliography{references} 
+
+\end{document}
