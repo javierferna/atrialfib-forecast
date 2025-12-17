@@ -6,14 +6,14 @@ import os
 import re
 
 # Load the Excel file with map names
-excel_path = 'D:/ML HEALTHCARE/CARDIO FINAL PROJECT/MapsInfo.xlsx'
+excel_path = 'MapsInfo.xlsx'
 maps_df = pd.read_excel(excel_path)
 
 # Create a dictionary mapping patient date to map_name (AF column)
 patient_to_map = dict(zip(maps_df['Patient'], maps_df['AF']))
 
 # Directory containing EGM files
-egms_dir = 'D:/ML HEALTHCARE/CARDIO FINAL PROJECT/EGMS'
+egms_dir = 'EGMS'
 
 # Process all files in the EGMS folder
 for filename in os.listdir(egms_dir):

@@ -1,6 +1,0 @@
-{
-    "workbench.editorAssociations": {
-        "{hexdiff}:/**/*.*": "hexEditor.hexedit",
-        "file:/**/*.xlsx": "jupyter-data-wrangler"
-    }
-}
