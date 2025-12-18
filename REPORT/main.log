@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.8)  8 DEC 2025 17:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.12.8)  18 DEC 2025 18:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -530,7 +530,7 @@ File: t1txss.fd 2000/12/15 v3.1
 )
 LaTeX Font Info:    Font shape `T1/txss/m/n' will be
 (Font)              scaled to size 11.39996pt on input line 100.
-<logo_UC3M.png, id=31, 456.2865pt x 45.99pt>
+<logo_UC3M.png, id=99, 456.2865pt x 45.99pt>
 File: logo_UC3M.png Graphic file (type png)
 <use logo_UC3M.png>
 Package pdftex.def Info: logo_UC3M.png  used on input line 105.
@@ -567,29 +567,53 @@ LaTeX Font Info:    Font shape `T1/txr/b/n' in size <12> not available
 
 ]
 Chapter 1.
+LaTeX Font Info:    Trying to load font information for OT1+txr on input line 184.
+(C:\Users\javat\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\ot1txr.fd
+File: ot1txr.fd 2000/12/15 v3.1
+)
+LaTeX Font Info:    Trying to load font information for U+txsya on input line 184.
+ (C:\Users\javat\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\utxsya.fd
+File: utxsya.fd 2000/12/15 v3.1
+)
+LaTeX Font Info:    Trying to load font information for U+txsyb on input line 184.
+ (C:\Users\javat\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\utxsyb.fd
+File: utxsyb.fd 2000/12/15 v3.1
+)
+LaTeX Font Info:    Trying to load font information for U+txmia on input line 184.
+ (C:\Users\javat\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\utxmia.fd
+File: utxmia.fd 2000/12/15 v3.1
+)
+LaTeX Font Info:    Trying to load font information for U+txsyc on input line 184.
+ (C:\Users\javat\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\utxsyc.fd
+File: utxsyc.fd 2000/12/15 v3.1
+)
+LaTeX Font Info:    Trying to load font information for TS1+txr on input line 186.
+ (C:\Users\javat\AppData\Local\Programs\MiKTeX\tex/latex/txfonts\ts1txr.fd
+File: ts1txr.fd 2000/12/15 v3.1
+)
+Overfull \hbox (6.22798pt too wide) in paragraph at lines 191--192
+[]\T1/txr/m/n/12 We de-fine the discrete-time in-trac-ar-diac elec-tro-gram (EGM) sig-nal as a real-valued stochas-
+ []
+
 [2
 
-]
+] [3]
 Chapter 2.
-[3
-
-]
-Chapter 3.
 [4
 
 ]
-Chapter 4.
+Chapter 3.
 [5
 
-]
+] [6]
+Chapter 4.
+[7
+
+] [8] [9]
 Chapter 5.
-(main.bbl [6
+[10
 
-]
-
-LaTeX Warning: Empty `thebibliography' environment on input line 3.
-
-) [7
+] (main.bbl [11]) [12
 
 ] (main.aux)
  ***********
@@ -597,20 +621,20 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 18EEE0FF1BAC1D9DB438A42BF7968DEA;1010.
+(rerunfilecheck)             Checksum: C3DF4E69B0DAFCA1344C8BA5E20D5D78;4073.
  ) 
 Here is how much of TeX's memory you used:
- 13484 strings out of 474486
- 207475 string characters out of 5743755
- 1929542 words of memory out of 5000000
- 35554 multiletter control sequences out of 15000+600000
- 585182 words of font info for 61 fonts, out of 8000000 for 9000
+ 13770 strings out of 474486
+ 211648 string characters out of 5743755
+ 1936542 words of memory out of 5000000
+ 35746 multiletter control sequences out of 15000+600000
+ 619159 words of font info for 139 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,11n,103p,477b,469s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb>
-Output written on main.pdf (11 pages, 81765 bytes).
+ 75i,12n,103p,624b,528s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtcxr.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxbmi.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxmi.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/rtxr.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txex.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsy.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/public/txfonts/txsyb.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/javat/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (16 pages, 158914 bytes).
 PDF statistics:
- 125 PDF objects out of 1000 (max. 8388607)
- 20 named destinations out of 1000 (max. 500000)
- 62 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 316 PDF objects out of 1000 (max. 8388607)
+ 60 named destinations out of 1000 (max. 500000)
+ 198 words of extra memory for PDF output out of 10000 (max. 10000000)
 

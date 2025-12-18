@@ -4,31 +4,31 @@
 % PACKAGES AND CONFIGURATION
 %==================================================================
 
-%--- Page Layout ---
+% Page Layout
 \usepackage[vmargin=2.5cm, hmargin=3cm]{geometry}
 \renewcommand{\baselinestretch}{1.15} % Line spacing
 \setlength{\parindent}{0pt} % Remove paragraph indentation
 \parskip=10pt % Space between paragraphs
 
-%--- Fonts and Math ---
+% Fonts and Math
 \usepackage{amsmath,amssymb,amsfonts}  % Advanced math formatting
 \usepackage{txfonts}  % TX fonts (heavier weight for title page)
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 
-%--- Graphics and Colors ---
+% Graphics and Colors
 \usepackage[table]{xcolor}
 \definecolor{azulUC3M}{RGB}{0,0,102}
 \usepackage{graphicx}
 
-%--- Headers and Footers ---
+% Headers and Footers
 \usepackage{fancyhdr}
 \setlength{\headheight}{15pt}
 
-%--- Language ---
+% Language
 \usepackage[english]{babel}
 
-%--- Links ---
+% Links
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -37,7 +37,7 @@
     urlcolor=azulUC3M
 }
 
-%--- Title Formatting ---
+% Title Formatting
 \usepackage{titlesec}
 \usepackage{titletoc}
 
@@ -92,7 +92,7 @@
 %==================================================================
 \begin{document}
 
-%--- Front Matter (Roman Numerals) ---
+% Front Matter (Roman Numerals)
 \pagenumbering{Roman}
 
 %========================= TITLE PAGE =========================
@@ -101,12 +101,12 @@
 \color{azulUC3M}
 \begin{center}
     
-    %--- Logo ---
+    % Logo
     \makebox[\textwidth][c]{\includegraphics[width=16cm]{logo_UC3M.png}}
     
     \vspace{2.5cm}
     
-    %--- Course Info ---
+    % Course Info
     \begin{Large}
         Machine Learning in Healthcare\\
         2025-2026\\
@@ -115,20 +115,20 @@
         \bigskip
     \end{Large}
     
-    %--- Project Title ---
+    % Project Title
     {\Huge ``Forecasting Intracardiac Electrograms to Identify Arrhythmic Activity in Atrial Fibrillation''}\\
     \vspace*{0.5cm}
     \rule{10.5cm}{0.1mm}\\
     \vspace*{0.9cm}
     
-    %--- Authors ---
+    % Authors
     {\LARGE 
         Javier Fernández, Enica Kong, Virginia Fu,\\
         Sergio Madrid, Aleksander Nowak
     }\\
     \vspace*{1cm}
     
-    %--- Supervisor and Date ---
+    % Supervisor and Date
     \begin{Large}
         Tutor\\
         Gonzalo Ríos\\
@@ -141,7 +141,7 @@
 \end{sffamily}
 \end{titlepage}
 
-%--- Blank Page ---
+% Blank Page
 \newpage
 \thispagestyle{empty}
 \mbox{}
@@ -156,7 +156,7 @@
 \thispagestyle{empty}
 \mbox{}
 
-%--- Setup Header/Footer for Main Content ---
+% Setup Header/Footer for Main Content
 \pagestyle{fancy}
 \fancyhf{} % Clear defaults
 \renewcommand{\headrulewidth}{0pt}
@@ -172,32 +172,195 @@
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 
-\textbf{Atrial fibrillation (AF)} is the most common sustained cardiac arrhythmia, driven by regions of complex electrical activity within the atria. \textbf{Intracardiac electrograms (EGMs)} recorded during \textbf{ablation procedures} provide a direct window into these dynamics, yet their interpretation remains challenging due to the high spatial and temporal variability of the signals.
+\textbf{Atrial fibrillation (AF)} is the most common type of cardiac arrhythmia, driven by regions of complex electrical activity inside the atria. \textbf{Intracardiac electrograms (EGMs)} recorded during \textbf{ablation procedures} allow us to access these dynamics. However, their interpretation is still challenging due to the high spatial and temporal variability of the signals.
 
 The goal of this project is to apply \textbf{machine learning} and \textbf{deep learning-based forecasting} techniques to predict the temporal evolution of EGM signals. The working hypothesis is that signals that are \textbf{easier to predict} correspond to \textbf{passively activated regions}, while those that are \textbf{harder to forecast} reflect \textbf{active arrhythmic drivers}.
 
-This approach may help identify critical \textbf{ablation sites} and advance more personalised treatment strategies in atrial fibrillation.
+This approach may help identify relevant \textbf{ablation sites} for more personalised treatment strategies in atrial fibrillation.
 
 % 2. Introduction
 \chapter{Introduction and Problem Description}
 \section{Introduction}
-% [Content goes here]
+Let $(\Omega, \mathcal{F}, \mathbb{P})$ be a probability space. This structure defines the mathematical foundation of our analysis:
+\begin{itemize}
+    \item $\Omega$ is the sample space, representing all possible realizations of the heart signal.
+    \item $\mathcal{F}$ is the $\sigma$-algebra, the collection of all measurable events.
+    \item $\mathbb{P}$ is the probability measure, indicating the likelihood of specific signal patterns occurring.
+\end{itemize}
+
+We define the discrete-time intracardiac electrogram (EGM) signal as a real-valued stochastic process $(X_t)_{t \in \mathbb{Z}}$. This treats the EGM signal as a sequence of random variables indexed by time $t$. Since it is discrete-time ($t \in \mathbb{Z}$), it corresponds to the sampled data points (e.g., every 2 ms at 500 Hz).
+
+The primary objective of this project was to develop a predictive model for these EGM signals. Our working hypothesis was that signals from healthy, passively activated tissue would be regular and predictable, whereas signals from active sources (arrhythmic drivers) would be chaotic and difficult to forecast. That is, a high prediction error could be used as a biomarker for identifying relevant ablation sites.
+
+\subsection{Initial Exploration and Baseline Models}
+Our initial approach focused on direct time-series forecasting using deep learning architectures. We established a pipeline that included:
+\begin{itemize}
+    \item \textbf{Baselines:} Naive forecasting (repeating the last value) and Linear Regression.
+    \item \textbf{Deep Learning Models:} Recurrent Neural Networks (RNNs), specifically Gated Recurrent Units (GRU) and Long Short-Term Memory (LSTM) networks, as well as Sequence-to-Sequence (Seq2Seq) models with Attention mechanisms.
+\end{itemize}
+
+However, during this exploration, we encountered some problems. As observed in our initial experiments, the models frequently converged to predicting a "flat line" (the isoelectric line) rather than capturing the activation spikes. This happened because the Mean Squared Error (MSE) loss function penalizes large errors heavily. Since the activation spikes are rare events in the temporal sequence, the model found it "cheap" to predict the mean value (zero) all the time instead of risking a large penalty by predicting a spike at the wrong time.
+
+Additionally, there were stationarity issues, where signals would change rapidly from organized to fractionated in the same recording. There were also great amplitude differences between electrodes, which needed normalization. We also explored dimensionality reduction techniques, such as Principal Component Analysis (PCA), to simplify the signal complexity before forecasting.
+
+\subsection{The Autoregressive Approach}
+Given the limitations of the deep learning models "flatlining" for this task, we adopted an Autoregressive (AR) modeling strategy. For this approach, we assume that the process has finite variance, which means $X_t \in \mathcal{L}^2(\Omega, \mathcal{F}, \mathbb{P})$. This condition ensures that the second-order moments required for linear prediction exist.
+
+The justification for this model comes from Wold's Decomposition Theorem \cite{wold1938study}. Any zero-mean, non-deterministic stationary time series $X_t$ can be expressed as an infinite moving average representation:
+\begin{equation}
+X_t = \sum_{j=0}^{\infty} \psi_j \varepsilon_{t-j},
+\end{equation}
+where $\psi_0 = 1$ and $\sum_{j=0}^{\infty} \psi_j^2 < \infty$, and $\{\varepsilon_t\}_{t \in \mathbb{Z}}$ is a white noise process with zero mean and variance $\sigma^2$. Thus, the current value of the process can be expressed as a linear combination of current and past white noise terms.
+
+The assumption of stationarity doesn't hold perfectly for EGM signals due to physiological variations. However, over short time intervals (e.g., 2.5 seconds), the stationarity assumption is a reasonable approximation that enables the use of autoregressive techniques.
+
+The goal of this project is to take $2.5$ seconds of EGM data at a sampling rate of $500$ Hz, and use the first $2$ seconds (Observation Window) to predict the next $0.5$ seconds (Prediction Horizon).
 
 % 3. Data Description
 \chapter{Data Description}
-% [Content goes here]
+In this section, we describe the EGM dataset used for analysis. The dataset has recordings from multiple patients, where each record corresponds to a specific map of the atria.
+
+Let $N_k$ be the number of observed processes (electrodes) for patient $k$, which varies depending on the location mapped during the procedure. Let $T$ be the total time duration of the recording, which is constant across all recordings. For a given patient $k$, the dataset is represented as a matrix $\mathbf{X}^{(k)} \in \mathbb{R}^{N_k \times T}$.
+
+The data consists of EGM recordings sampled at a frequency of $500$ Hz. Each recording has a duration of $2.5$ seconds, corresponding to $T = 1250$ samples:
+\begin{itemize}
+    \item Sampling Frequency ($F_s$): $500$ Hz
+    \item Sampling Interval ($DT$): $2$ ms
+    \item Observation Window ($T_{OBS}$): $1000$ samples ($2$ seconds)
+    \item Prediction Horizon ($T_{PRED}$): $250$ samples ($0.5$ seconds)
+\end{itemize}
+
+We enforce the Weak Stationarity condition by centering the data to ensure $\mathbb{E}[X_t] \approx 0$. Specifically, we subtract the mean of the history window from the entire signal to avoid data leakage from the future.
+
+The dataset is split into training and evaluation sets. However, for Autoregressive models, "training" is independent for each instance (fitting coefficients to the history of the specific signal being predicted). The split is for evaluating the generalization of hyperparameters (e.g., lag order $p$).
+
+\section{Signal Characteristics}
+Visual inspection of the EGM signals reveals three main patterns:
+\begin{enumerate}
+    \item \textbf{Pattern A (Discrete, Organized Spikes)}: Characterized by sharp spikes separated by isoelectric baselines. These likely represent healthy or passively activated tissue.
+    \item \textbf{Pattern B (Complex Fractionated Atrial Electrograms)}: Characterized by continuous, low-amplitude activity without clear isoelectric lines. This can represent fibrotic tissue or active arrhythmic drivers.
+    \item \textbf{Artifacts}: Signals dominated by electrical interference or baseline drift, which are considered noise.
+\end{enumerate}
 
 % 4. Pipeline
 \chapter{Pipeline and Methods Proposed}
-% [Content goes here]
+
+\section{Autoregressive Process AR(p)}
+We approximate the Wold representation using an Autoregressive process of order $p$, denoted as $\text{AR}(p)$. An $\text{AR}(p)$ process describes $X_t$ as a linear combination of its own past $p$ values plus a stochastic error term:
+\begin{equation}
+X_t = c + \sum_{i=1}^{p} \phi_i X_{t-i} + \varepsilon_t,
+\end{equation}
+where $c$ is a constant, $\phi_1, \ldots, \phi_p$ are the autoregressive coefficients, and $\varepsilon_t$ is white noise.
+In training, we estimate the vector $\boldsymbol{\phi}$ using methods such as the Yule-Walker Equations or Least Squares Estimation (minimizing $\sum \varepsilon_t^2$).
+
+\section{ARMA(p, q) and ARIMA(p, d, q)}
+To better capture shock dynamics, we extend the framework to the $\text{ARMA}(p, q)$ model:
+\begin{equation}
+X_t = c + \sum_{i=1}^{p} \phi_i X_{t-i} + \sum_{j=1}^{q} \theta_j \varepsilon_{t-j} + \varepsilon_t,
+\end{equation}
+where $\theta_j$ are the moving average coefficients.
+For non-stationary signals, we apply differencing $d$ times, leading to the $\text{ARIMA}(p, d, q)$ model:
+\begin{equation}
+(1 - L)^d X_t = c + \sum_{i=1}^{p} \phi_i (1 - L)^d X_{t-i} + \sum_{j=1}^{q} \theta_j \varepsilon_{t-j} + \varepsilon_t.
+\end{equation}
+
+\section{Time-Varying AR (TVAR)}
+Bio-signals often show non-stationarity. We generalize the $\text{AR}(p)$ process to allow time-dependent coefficients:
+\begin{equation}
+X_t = c(t) + \sum_{i=1}^{p} \phi_i(t) X_{t-i} + \varepsilon_t.
+\end{equation}
+The coefficients $\boldsymbol{\phi}_t$ are estimated recursively using Recursive Least Squares (RLS) via the Kalman Filter \cite{kalman1960new}. This allows the model to adapt to changing conditions (e.g., heart rate acceleration).
+
+\section{Evaluation Metrics}
+Given the sparsity of EGMs, global MSE can be misleading. We introduce several metrics:
+\begin{itemize}
+    \item \textbf{Global MSE}: Standard mean squared error over the entire prediction window.
+    \item \textbf{Spike MSE}: MSE calculated only on high-amplitude regions (spikes), defined as samples exceeding the $95$-th percentile of amplitude.
+    \item \textbf{Normalized MSE (NMSE)}: Defined as $\text{NMSE} = \frac{\text{MSE}}{\text{Var}(y_{\text{target}})}$. This metric normalizes the error by the signal variance, providing an amplitude-invariant measure of prediction difficulty. An $\text{NMSE} = 1$ indicates the model performs no better than predicting the mean; $\text{NMSE} > 1$ indicates the signal is harder to predict than average.
+\end{itemize}
 
 % 5. Results
 \chapter{Results and Discussion}
-% [Content goes here]
+
+\section{Order Selection}
+We determined the optimal lag order $p$ using the Akaike Information Criterion (AIC). Analysis of the dataset suggested an optimal order of $p \approx 10$ (covering $20$ ms). This order was used for the AR models.
+
+\section{Stationarity Check}
+The Augmented Dickey-Fuller (ADF) test was performed on random samples. The results indicated that the majority of EGM signals in the dataset are stationary ($p\text{-value} < 0.05$). Therefore, for most cases, differencing ($d=0$) is sufficient, favoring ARMA over ARIMA. However, we tested ARIMA with $d=1$ for robustness.
+
+\section{Model Performance}
+We evaluated three model architectures:
+\begin{enumerate}
+    \item \textbf{AR(p)}: Linear, static coefficients.
+    \item \textbf{ARIMA(p, d, q)}: Iterative, includes Moving Average terms.
+    \item \textbf{TVAR}: Time-varying coefficients estimated via RLS.
+\end{enumerate}
+
+The results showed that while all models achieved reasonable Global MSE, they failed to accurately predict the "spikes" (activations) in the prediction horizon.
+\begin{itemize}
+    \item \textbf{AR(p)}: Predictions tended to revert to the mean after approx. 100 ms.
+    \item \textbf{ARIMA}: The addition of MA terms did not significantly improve spike prediction.
+    \item \textbf{TVAR}: The RLS filter also struggled to predict future activations based solely on history, often producing a flat line or a very weak oscillation in the prediction window.
+\end{itemize}
+
+Visual inspection confirms that the models capture the periodicity to some extent but fail to reproduce the amplitude of the EGM spikes in the long term ($>100$ ms). The "Spike MSE" was significantly higher than the "Global MSE" for all models, making this limitation clear.
+
+\section{Proposed Solution: Anomaly Detection via Prediction Error}
+Although the AR models struggle to produce accurate spike predictions. Our main insight is that \textbf{the prediction error itself becomes a biomarker for tissue complexity}.
+
+We define the \textbf{Normalized Mean Squared Error (NMSE)} as:
+\begin{equation}
+\text{NMSE} = \frac{\text{MSE}}{\text{Var}(y_{\text{target}})}
+\end{equation}
+where $y_{\text{target}}$ is the ground truth signal in the prediction window. This normalization ensures that we rank electrodes by how chaotic the signal is, not by raw amplitude.
+
+\subsection{Hypothesis}
+\begin{itemize}
+    \item \textbf{Low NMSE} ($< 1$): Organized, predictable tissue. The AR model can track the signal reasonably well, suggesting passively activated or healthy regions.
+    \item \textbf{High NMSE} ($> 1$): Complex, unpredictable tissue. The AR model fails, suggesting Complex Fractionated Atrial Electrograms (CFAEs) or chaotic rotors that are potential ablation targets.
+\end{itemize}
+
+\subsection{Results of Anomaly Detection}
+We ran the AR model on the entire test set ($\approx 16,000$ electrodes across 12 patients) and computed NMSE for each electrode. The distribution revealed:
+\begin{itemize}
+    \item The majority of electrodes cluster around $\text{NMSE} \approx 1$, indicating that EGM signals are normally too stochastic for simple linear forecasting over a 0.5 second horizon.
+    \item A clear \textbf{high-error tail} (up to $\text{NMSE} \approx 20$) identifies \textbf{anomaly candidates}. These are signals significantly more unpredictable than the rest.
+    \item A \textbf{low-error tail} ($\text{NMSE} < 1$) emphasizes organized, healthy tissue where rhythmic patterns allow for better predictions.
+\end{itemize}
+
+\subsection{Visual Validation}
+Visual inspection of the top-ranked (high NMSE) signals confirmed that they exhibit characteristics of CFAEs: continuous, low-amplitude, fractionated activity without clear isoelectric baselines. Conversely, the bottom-ranked (low NMSE) signals showed discrete, organized spikes with clear baselines. These are consistent with healthy tissue.
+
+\subsection{Candidate Ablation Sites}
+Based on the NMSE ranking, we identified the top 10\% of electrodes by prediction error as \textbf{candidate ablation sites}. These regions, distributed across multiple patients and maps, represent areas where the AR model fails most notably and are therefore hypothesized to correspond to active arrhythmic drivers.
 
 % 6. Conclusions
 \chapter{Conclusions}
-% [Content goes here]
+In this study, we explored the use of Autoregressive (AR), ARIMA, and Time-Varying AR (TVAR) models for predicting intracardiac electrogram (EGM) signals and proposed a novel approach for identifying potential ablation targets.
+
+Our analysis leads to the following conclusions:
+\begin{enumerate}
+    \item \textbf{Short-term vs. Long-term Prediction}: AR-based models are effective for very short-term prediction (next few samples) but fail to capture the complex, non-linear dynamics required for a $0.5$ second forecast. The models revert to predicting the mean (isoelectric line) after approximately 100 ms.
+    \item \textbf{Spike Prediction Limitation}: The models struggle to predict the sharp activations (spikes) that are clinically relevant. Increasing complexity from AR to ARIMA or TVAR provided marginal improvement.
+    \item \textbf{Prediction Error as a Biomarker}: We demonstrated that the \textbf{Normalized MSE (NMSE)} serves as a measure of signal "unpredictability." High NMSE values correlate with complex, fractionated activity (potential arrhythmic drivers), while low NMSE values correspond to organized, discrete spikes (healthy tissue).
+    \item \textbf{Clinical Application}: By ranking electrodes by NMSE, we identified candidate ablation sites, regions where the AR model fails most dramatically.
+\end{enumerate}
+
+\section{Limitations}
+\begin{itemize}
+    \item The test set is a subset of the full data; clinical validation would require correlation with actual ablation outcomes.
+    \item The NMSE threshold for "chaotic" would need clinical calibration.
+    \item Patient-specific factors (e.g., scar patterns) are not explicitly modeled.
+    \item A small number of electrodes produced extreme NMSE values due to numerical instability in the AR fitting process. These were identified and excluded from the analysis.
+\end{itemize}
+
+\section{Future Work}
+Future work should investigate:
+\begin{itemize}
+    \item Correlation of high-NMSE regions with clinical ablation outcomes to validate the biomarker hypothesis.
+    \item Spatial analysis to identify clusters of high-NMSE electrodes that may represent rotor cores.
+    \item Patient-specific thresholds calibrated to individual anatomy and arrhythmia characteristics.
+\end{itemize}
 
 % BibTeX
 \bibliographystyle{ieeetr}
