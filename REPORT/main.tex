@@ -20,6 +20,9 @@
 \usepackage[table]{xcolor}
 \definecolor{azulUC3M}{RGB}{0,0,102}
 \usepackage{graphicx}
+\graphicspath{{assets/}}
+\usepackage{caption}
+\usepackage{float}
 
 % Headers and Footers
 \usepackage{fancyhdr}
@@ -102,7 +105,7 @@
 \begin{center}
     
     % Logo
-    \makebox[\textwidth][c]{\includegraphics[width=16cm]{logo_UC3M.png}}
+    \makebox[\textwidth][c]{\includegraphics[width=16cm]{assets/logo_UC3M.png}}
     
     \vspace{2.5cm}
     
@@ -152,6 +155,12 @@
 \tableofcontents
 \thispagestyle{fancy}
 
+%========================= LIST OF FIGURES =========================
+\newpage
+\renewcommand{\listfigurename}{\large\bfseries LIST OF FIGURES}
+\listoffigures
+\thispagestyle{fancy}
+
 \newpage
 \thispagestyle{empty}
 \mbox{}
@@ -178,6 +187,14 @@ The goal of this project is to apply \textbf{machine learning} and \textbf{deep 
 
 This approach may help identify relevant \textbf{ablation sites} for more personalised treatment strategies in atrial fibrillation.
 
+\vspace{10mm}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/atrial_schema.jpeg}
+    \caption{Comparison between normal sinus rhythm and atrial fibrillation.}
+    \label{fig:atrial_schema}
+\end{figure}
+
 % 2. Introduction
 \chapter{Introduction and Problem Description}
 \section{Introduction}
@@ -201,7 +218,45 @@ Our initial approach focused on direct time-series forecasting using deep learni
 
 However, during this exploration, we encountered some problems. As observed in our initial experiments, the models frequently converged to predicting a "flat line" (the isoelectric line) rather than capturing the activation spikes. This happened because the Mean Squared Error (MSE) loss function penalizes large errors heavily. Since the activation spikes are rare events in the temporal sequence, the model found it "cheap" to predict the mean value (zero) all the time instead of risking a large penalty by predicting a spike at the wrong time.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/model_comparison.png}
+    \caption{Comparison of deep learning model predictions (GRU, LSTM, Seq2Seq) vs. actual EGM signals.}
+    \label{fig:model_comparison}
+\end{figure}
+
+The training process was stable for all deep learning models. As shown in the training curves, the loss decreased monotonically for the training and validation sets. Indeed, the models were successfully learning the underlying patterns of the data, even if they struggled with the sparsity of the spikes.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/gru_training.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{assets/lstm_training.png}
+    \end{minipage}
+    \caption{Training curves for GRU (left) and LSTM (right) models showing training and validation loss over epochs.}
+    \label{fig:training_curves}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{assets/seq2seq_training.png}
+    \caption{Training curve for the Seq2Seq model with Attention mechanism.}
+    \label{fig:seq2seq_training}
+\end{figure}
+
 Additionally, there were stationarity issues, where signals would change rapidly from organized to fractionated in the same recording. There were also great amplitude differences between electrodes, which needed normalization. We also explored dimensionality reduction techniques, such as Principal Component Analysis (PCA), to simplify the signal complexity before forecasting.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{assets/pca.png}
+    \caption{Principal Component Analysis (PCA) of signals showing the variance explained by each component.}
+    \label{fig:pca}
+\end{figure}
 
 \subsection{The Autoregressive Approach}
 Given the limitations of the deep learning models "flatlining" for this task, we adopted an Autoregressive (AR) modeling strategy. For this approach, we assume that the process has finite variance, which means $X_t \in \mathcal{L}^2(\Omega, \mathcal{F}, \mathbb{P})$. This condition ensures that the second-order moments required for linear prediction exist.
@@ -242,6 +297,13 @@ Visual inspection of the EGM signals reveals three main patterns:
     \item \textbf{Artifacts}: Signals dominated by electrical interference or baseline drift, which are considered noise.
 \end{enumerate}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/samples.png}
+    \caption{Sample EGM signals from the dataset showing the variability in waveforms across different electrodes.}
+    \label{fig:samples}
+\end{figure}
+
 % 4. Pipeline
 \chapter{Pipeline and Methods Proposed}
 
@@ -252,6 +314,13 @@ X_t = c + \sum_{i=1}^{p} \phi_i X_{t-i} + \varepsilon_t,
 \end{equation}
 where $c$ is a constant, $\phi_1, \ldots, \phi_p$ are the autoregressive coefficients, and $\varepsilon_t$ is white noise.
 In training, we estimate the vector $\boldsymbol{\phi}$ using methods such as the Yule-Walker Equations or Least Squares Estimation (minimizing $\sum \varepsilon_t^2$).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/lag_autocorrelation.png}
+    \caption{Autocorrelation function analysis used to determine the optimal lag order $p$ for the AR model.}
+    \label{fig:lag_autocorrelation}
+\end{figure}
 
 \section{ARMA(p, q) and ARIMA(p, d, q)}
 To better capture shock dynamics, we extend the framework to the $\text{ARMA}(p, q)$ model:
@@ -270,6 +339,15 @@ Bio-signals often show non-stationarity. We generalize the $\text{AR}(p)$ proces
 X_t = c(t) + \sum_{i=1}^{p} \phi_i(t) X_{t-i} + \varepsilon_t.
 \end{equation}
 The coefficients $\boldsymbol{\phi}_t$ are estimated recursively using Recursive Least Squares (RLS) via the Kalman Filter \cite{kalman1960new}. This allows the model to adapt to changing conditions (e.g., heart rate acceleration).
+
+One of the main advantages of TVAR is its interpretability. We can visualize how the model adapts its parameters over the 2-second history window. If the coefficients remain flat, the signal was stationary. If they exhibit oscillations, the tissue properties were changing, which may indicate transitions between organized and fractionated activity.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{assets/coefficients.png}
+    \caption{Time-varying AR coefficients $\phi_i(t)$ estimated via RLS.}
+    \label{fig:coefficients}
+\end{figure}
 
 \section{Evaluation Metrics}
 Given the sparsity of EGMs, global MSE can be misleading. We introduce several metrics:
@@ -305,6 +383,13 @@ The results showed that while all models achieved reasonable Global MSE, they fa
 
 Visual inspection confirms that the models capture the periodicity to some extent but fail to reproduce the amplitude of the EGM spikes in the long term ($>100$ ms). The "Spike MSE" was significantly higher than the "Global MSE" for all models, making this limitation clear.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{assets/ar_model_comparison.png}
+    \caption{Comparison of AR model predictions vs. actual EGM signals.}
+    \label{fig:ar_model_comparison}
+\end{figure}
+
 \section{Proposed Solution: Anomaly Detection via Prediction Error}
 Although the AR models struggle to produce accurate spike predictions. Our main insight is that \textbf{the prediction error itself becomes a biomarker for tissue complexity}.
 
@@ -328,8 +413,22 @@ We ran the AR model on the entire test set ($\approx 16,000$ electrodes across 1
     \item A \textbf{low-error tail} ($\text{NMSE} < 1$) emphasizes organized, healthy tissue where rhythmic patterns allow for better predictions.
 \end{itemize}
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{assets/nmse.png}
+    \caption{Distribution of Normalized MSE (NMSE) across all test electrodes in log-scale.}
+    \label{fig:nmse}
+\end{figure}
+
 \subsection{Visual Validation}
 Visual inspection of the top-ranked (high NMSE) signals confirmed that they exhibit characteristics of CFAEs: continuous, low-amplitude, fractionated activity without clear isoelectric baselines. Conversely, the bottom-ranked (low NMSE) signals showed discrete, organized spikes with clear baselines. These are consistent with healthy tissue.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{assets/hypothesis_comparison.png}
+    \caption{Comparison of high-NMSE vs. low-NMSE signals.}
+    \label{fig:hypothesis_comparison}
+\end{figure}
 
 \subsection{Candidate Ablation Sites}
 Based on the NMSE ranking, we identified the top 10\% of electrodes by prediction error as \textbf{candidate ablation sites}. These regions, distributed across multiple patients and maps, represent areas where the AR model fails most notably and are therefore hypothesized to correspond to active arrhythmic drivers.
@@ -354,6 +453,7 @@ Our analysis leads to the following conclusions:
     \item A small number of electrodes produced extreme NMSE values due to numerical instability in the AR fitting process. These were identified and excluded from the analysis.
 \end{itemize}
 
+\vspace{10mm}
 \section{Future Work}
 Future work should investigate:
 \begin{itemize}

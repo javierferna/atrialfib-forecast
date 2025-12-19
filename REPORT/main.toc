@@ -1,26 +1,26 @@
 \babel@toc {english}{}\relax 
-\contentsline {chapter}{Abstract}{1}{chapter*.2}%
+\contentsline {chapter}{Abstract}{1}{chapter*.3}%
 \contentsline {chapter}{\numberline {1}Introduction and Problem Description}{2}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Introduction}{2}{section.1.1}%
 \contentsline {subsection}{\numberline {1.1.1}Initial Exploration and Baseline Models}{2}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}The Autoregressive Approach}{3}{subsection.1.1.2}%
-\contentsline {chapter}{\numberline {2}Data Description}{4}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Signal Characteristics}{4}{section.2.1}%
-\contentsline {chapter}{\numberline {3}Pipeline and Methods Proposed}{5}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Autoregressive Process AR(p)}{5}{section.3.1}%
-\contentsline {section}{\numberline {3.2}ARMA(p, q) and ARIMA(p, d, q)}{5}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Time-Varying AR (TVAR)}{5}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Evaluation Metrics}{6}{section.3.4}%
-\contentsline {chapter}{\numberline {4}Results and Discussion}{7}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Order Selection}{7}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Stationarity Check}{7}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Model Performance}{7}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Proposed Solution: Anomaly Detection via Prediction Error}{8}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Hypothesis}{8}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Results of Anomaly Detection}{8}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Visual Validation}{8}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Candidate Ablation Sites}{9}{subsection.4.4.4}%
-\contentsline {chapter}{\numberline {5}Conclusions}{10}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Limitations}{10}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Future Work}{10}{section.5.2}%
+\contentsline {subsection}{\numberline {1.1.2}The Autoregressive Approach}{4}{subsection.1.1.2}%
+\contentsline {chapter}{\numberline {2}Data Description}{6}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Signal Characteristics}{6}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Pipeline and Methods Proposed}{8}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Autoregressive Process AR(p)}{8}{section.3.1}%
+\contentsline {section}{\numberline {3.2}ARMA(p, q) and ARIMA(p, d, q)}{8}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Time-Varying AR (TVAR)}{9}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Evaluation Metrics}{9}{section.3.4}%
+\contentsline {chapter}{\numberline {4}Results and Discussion}{11}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Order Selection}{11}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Stationarity Check}{11}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Model Performance}{11}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Proposed Solution: Anomaly Detection via Prediction Error}{12}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Hypothesis}{12}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Results of Anomaly Detection}{12}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Visual Validation}{13}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Candidate Ablation Sites}{14}{subsection.4.4.4}%
+\contentsline {chapter}{\numberline {5}Conclusions}{15}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Limitations}{15}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Future Work}{16}{section.5.2}%
 \contentsfinish 

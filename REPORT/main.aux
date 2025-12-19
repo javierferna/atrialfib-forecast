@@ -5,45 +5,68 @@
 \providecommand\HyField@AuxAddToFields[1]{}
 \providecommand\HyField@AuxAddToCoFields[2]{}
 \babel@aux{english}{}
-\@writefile{toc}{\contentsline {chapter}{Abstract}{1}{chapter*.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{Abstract}{1}{chapter*.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Comparison between normal sinus rhythm and atrial fibrillation.}}{1}{figure.caption.4}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:atrial_schema}{{1}{1}{Comparison between normal sinus rhythm and atrial fibrillation}{figure.caption.4}{}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction and Problem Description}{2}{chapter.1}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Introduction}{2}{section.1.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1.1}Initial Exploration and Baseline Models}{2}{subsection.1.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces Comparison of deep learning model predictions (GRU, LSTM, Seq2Seq) vs. actual EGM signals.}}{3}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:model_comparison}{{1.1}{3}{Comparison of deep learning model predictions (GRU, LSTM, Seq2Seq) vs. actual EGM signals}{figure.caption.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Training curves for GRU (left) and LSTM (right) models showing training and validation loss over epochs.}}{3}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:training_curves}{{1.2}{3}{Training curves for GRU (left) and LSTM (right) models showing training and validation loss over epochs}{figure.caption.6}{}}
 \citation{wold1938study}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}The Autoregressive Approach}{3}{subsection.1.1.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {2}Data Description}{4}{chapter.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces Training curve for the Seq2Seq model with Attention mechanism.}}{4}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:seq2seq_training}{{1.3}{4}{Training curve for the Seq2Seq model with Attention mechanism}{figure.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces Principal Component Analysis (PCA) of signals showing the variance explained by each component.}}{4}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:pca}{{1.4}{4}{Principal Component Analysis (PCA) of signals showing the variance explained by each component}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}The Autoregressive Approach}{4}{subsection.1.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Data Description}{6}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {2.1}Signal Characteristics}{4}{section.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Signal Characteristics}{6}{section.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Sample EGM signals from the dataset showing the variability in waveforms across different electrodes.}}{7}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:samples}{{2.1}{7}{Sample EGM signals from the dataset showing the variability in waveforms across different electrodes}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Pipeline and Methods Proposed}{8}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Autoregressive Process AR(p)}{8}{section.3.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Autocorrelation function analysis used to determine the optimal lag order $p$ for the AR model.}}{8}{figure.caption.10}\protected@file@percent }
+\newlabel{fig:lag_autocorrelation}{{3.1}{8}{Autocorrelation function analysis used to determine the optimal lag order $p$ for the AR model}{figure.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}ARMA(p, q) and ARIMA(p, d, q)}{8}{section.3.2}\protected@file@percent }
 \citation{kalman1960new}
-\@writefile{toc}{\contentsline {chapter}{\numberline {3}Pipeline and Methods Proposed}{5}{chapter.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Time-Varying AR (TVAR)}{9}{section.3.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Time-varying AR coefficients $\phi _i(t)$ estimated via RLS.}}{9}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:coefficients}{{3.2}{9}{Time-varying AR coefficients $\phi _i(t)$ estimated via RLS}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Evaluation Metrics}{9}{section.3.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Results and Discussion}{11}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Autoregressive Process AR(p)}{5}{section.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}ARMA(p, q) and ARIMA(p, d, q)}{5}{section.3.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Time-Varying AR (TVAR)}{5}{section.3.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.4}Evaluation Metrics}{6}{section.3.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}Results and Discussion}{7}{chapter.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Order Selection}{11}{section.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Stationarity Check}{11}{section.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Model Performance}{11}{section.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Comparison of AR model predictions vs. actual EGM signals.}}{12}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:ar_model_comparison}{{4.1}{12}{Comparison of AR model predictions vs. actual EGM signals}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Proposed Solution: Anomaly Detection via Prediction Error}{12}{section.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Hypothesis}{12}{subsection.4.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Results of Anomaly Detection}{12}{subsection.4.4.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Distribution of Normalized MSE (NMSE) across all test electrodes in log-scale.}}{13}{figure.caption.13}\protected@file@percent }
+\newlabel{fig:nmse}{{4.2}{13}{Distribution of Normalized MSE (NMSE) across all test electrodes in log-scale}{figure.caption.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Visual Validation}{13}{subsection.4.4.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Comparison of high-NMSE vs. low-NMSE signals.}}{14}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:hypothesis_comparison}{{4.3}{14}{Comparison of high-NMSE vs. low-NMSE signals}{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}Candidate Ablation Sites}{14}{subsection.4.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{15}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Order Selection}{7}{section.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Stationarity Check}{7}{section.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Model Performance}{7}{section.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Proposed Solution: Anomaly Detection via Prediction Error}{8}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.1}Hypothesis}{8}{subsection.4.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.2}Results of Anomaly Detection}{8}{subsection.4.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.3}Visual Validation}{8}{subsection.4.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}Candidate Ablation Sites}{9}{subsection.4.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{10}{chapter.5}\protected@file@percent }
-\@writefile{lof}{\addvspace {10\p@ }}
-\@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Limitations}{10}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Future Work}{10}{section.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Limitations}{15}{section.5.1}\protected@file@percent }
 \bibstyle{ieeetr}
 \bibdata{references}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Future Work}{16}{section.5.2}\protected@file@percent }
 \bibcite{wold1938study}{1}
 \bibcite{kalman1960new}{2}
 \ttl@finishall
-\gdef \@abspage@last{16}
+\gdef \@abspage@last{22}
