@@ -259,7 +259,7 @@ Additionally, there were stationarity issues, where signals would change rapidly
 \end{figure}
 
 \subsection{The Autoregressive Approach}
-Given the limitations of the deep learning models "flatlining" for this task, we adopted an Autoregressive (AR) modeling strategy. For this approach, we assume that the process has finite variance, which means $X_t \in \mathcal{L}^2(\Omega, \mathcal{F}, \mathbb{P})$. This condition ensures that the second-order moments required for linear prediction exist.
+Given the limitations of the deep learning models "flatlining" for this task, we adopted an Autoregressive (AR) modeling strategy. For this approach, we assume that $\mathbb{E}[X_t^2] < \infty$. This condition ensures that the second-order moments required for linear prediction exist.
 
 The justification for this model comes from Wold's Decomposition Theorem \cite{wold1938study}. Any zero-mean, non-deterministic stationary time series $X_t$ can be expressed as an infinite moving average representation:
 \begin{equation}
@@ -330,8 +330,9 @@ X_t = c + \sum_{i=1}^{p} \phi_i X_{t-i} + \sum_{j=1}^{q} \theta_j \varepsilon_{t
 where $\theta_j$ are the moving average coefficients.
 For non-stationary signals, we apply differencing $d$ times, leading to the $\text{ARIMA}(p, d, q)$ model:
 \begin{equation}
-(1 - L)^d X_t = c + \sum_{i=1}^{p} \phi_i (1 - L)^d X_{t-i} + \sum_{j=1}^{q} \theta_j \varepsilon_{t-j} + \varepsilon_t.
+(1 - L)^d X_t = c + \sum_{i=1}^{p} \phi_i (1 - L)^d X_{t-i} + \sum_{j=1}^{q} \theta_j \varepsilon_{t-j} + \varepsilon_t,
 \end{equation}
+where $(1 - L) X_t = X_t - X_{t-1}$ is the differencing operator.
 
 \section{Time-Varying AR (TVAR)}
 Bio-signals often show non-stationarity. We generalize the $\text{AR}(p)$ process to allow time-dependent coefficients:
