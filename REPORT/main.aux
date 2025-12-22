@@ -18,12 +18,12 @@
 \newlabel{fig:model_comparison}{{1.1}{3}{Comparison of deep learning model predictions (GRU, LSTM, Seq2Seq) vs. actual EGM signals}{figure.caption.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.2}{\ignorespaces Training curves for GRU (left) and LSTM (right) models showing training and validation loss over epochs.}}{3}{figure.caption.6}\protected@file@percent }
 \newlabel{fig:training_curves}{{1.2}{3}{Training curves for GRU (left) and LSTM (right) models showing training and validation loss over epochs}{figure.caption.6}{}}
-\citation{wold1938study}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.3}{\ignorespaces Training curve for the Seq2Seq model with Attention mechanism.}}{4}{figure.caption.7}\protected@file@percent }
 \newlabel{fig:seq2seq_training}{{1.3}{4}{Training curve for the Seq2Seq model with Attention mechanism}{figure.caption.7}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.4}{\ignorespaces Principal Component Analysis (PCA) of signals showing the variance explained by each component.}}{4}{figure.caption.8}\protected@file@percent }
 \newlabel{fig:pca}{{1.4}{4}{Principal Component Analysis (PCA) of signals showing the variance explained by each component}{figure.caption.8}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}The Autoregressive Approach}{4}{subsection.1.1.2}\protected@file@percent }
+\citation{brockwell1991time}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1.2}The Autoregressive Approach}{5}{subsection.1.1.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Data Description}{6}{chapter.2}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -37,11 +37,12 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Autocorrelation function analysis used to determine the optimal lag order $p$ for the AR model.}}{8}{figure.caption.10}\protected@file@percent }
 \newlabel{fig:lag_autocorrelation}{{3.1}{8}{Autocorrelation function analysis used to determine the optimal lag order $p$ for the AR model}{figure.caption.10}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}ARMA(p, q) and ARIMA(p, d, q)}{8}{section.3.2}\protected@file@percent }
-\citation{kalman1960new}
+\citation{Kalman_1960}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Time-Varying AR (TVAR)}{9}{section.3.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Time-varying AR coefficients $\phi _i(t)$ estimated via RLS.}}{9}{figure.caption.11}\protected@file@percent }
 \newlabel{fig:coefficients}{{3.2}{9}{Time-varying AR coefficients $\phi _i(t)$ estimated via RLS}{figure.caption.11}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Evaluation Metrics}{9}{section.3.4}\protected@file@percent }
+\citation{cuturi2018softdtwdifferentiablelossfunction}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Results and Discussion}{11}{chapter.4}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -59,14 +60,17 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Comparison of high-NMSE vs. low-NMSE signals.}}{14}{figure.caption.14}\protected@file@percent }
 \newlabel{fig:hypothesis_comparison}{{4.3}{14}{Comparison of high-NMSE vs. low-NMSE signals}{figure.caption.14}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.4.4}Candidate Ablation Sites}{14}{subsection.4.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{15}{chapter.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Top 5 most unpredictable and most predictable electrodes by NMSE.}}{14}{table.caption.15}\protected@file@percent }
+\newlabel{tab:ablation_candidates}{{4.1}{14}{Top 5 most unpredictable and most predictable electrodes by NMSE}{table.caption.15}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Conclusions}{16}{chapter.5}\protected@file@percent }
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Limitations}{15}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Limitations}{16}{section.5.1}\protected@file@percent }
 \bibstyle{ieeetr}
 \bibdata{references}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Future Work}{16}{section.5.2}\protected@file@percent }
-\bibcite{wold1938study}{1}
-\bibcite{kalman1960new}{2}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Future Work}{17}{section.5.2}\protected@file@percent }
+\bibcite{brockwell1991time}{1}
+\bibcite{Kalman_1960}{2}
+\bibcite{cuturi2018softdtwdifferentiablelossfunction}{3}
 \ttl@finishall
-\gdef \@abspage@last{22}
+\gdef \@abspage@last{23}

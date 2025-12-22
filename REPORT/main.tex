@@ -225,7 +225,7 @@ However, during this exploration, we encountered some problems. As observed in o
     \label{fig:model_comparison}
 \end{figure}
 
-The training process was stable for all deep learning models. As shown in the training curves, the loss decreased monotonically for the training and validation sets. Indeed, the models were successfully learning the underlying patterns of the data, even if they struggled with the sparsity of the spikes.
+The training process was stable for all deep learning models. As shown in the training curves, the loss decreased almost monotonically for the training and validation sets. Indeed, the models were successfully learning the underlying patterns of the data, even if they struggled with the sparsity of the spikes.
 
 \begin{figure}[H]
     \centering
@@ -253,15 +253,23 @@ Additionally, there were stationarity issues, where signals would change rapidly
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.75\textwidth]{assets/pca.png}
+    \includegraphics[width=0.685\textwidth]{assets/pca.png}
     \caption{Principal Component Analysis (PCA) of signals showing the variance explained by each component.}
     \label{fig:pca}
 \end{figure}
 
-\subsection{The Autoregressive Approach}
-Given the limitations of the deep learning models "flatlining" for this task, we adopted an Autoregressive (AR) modeling strategy. For this approach, we assume that $\mathbb{E}[X_t^2] < \infty$. This condition ensures that the second-order moments required for linear prediction exist.
+When comparing model performance on PCA-transformed data versus the complete raw signals, PCA significantly improved the spike prediction metrics. With PCA, the Spike MSE ranged from $6.7$--$9.4$ and Spike MAE from $2.4$--$2.9$, whereas on the raw data these metrics were substantially worse (Spike MSE $\approx 16.5$--$16.8$, Spike MAE $\approx 3.4$--$3.5$). This suggests that dimensionality reduction helps the models focus on the most relevant signal components for predicting activations.
 
-The justification for this model comes from Wold's Decomposition Theorem \cite{wold1938study}. Any zero-mean, non-deterministic stationary time series $X_t$ can be expressed as an infinite moving average representation:
+\subsection{The Autoregressive Approach}
+Despite the improvements with PCA, we ultimately decided on an Autoregressive (AR) modeling strategy for several reasons:
+\begin{enumerate}
+    \item \textbf{Instance-Specific Fitting}: Unlike neural networks that learn a global function across all patients, AR models fit coefficients independently for each signal. This avoids the need for a large training dataset and eliminates generalization issues across the different anatomies of patients.
+    \item \textbf{Prediction Error as a Biomarker}: The prediction error itself can be a potential biomarker. Arrhythmic tissue is expected to be harder to predict than healthy tissue. This approach favors more simple models in comparison to complex predictors.
+    \item \textbf{Interpretability}: AR coefficients have direct physical meaning related to tissue properties, whereas neural network weights are less explainable.
+    \item \textbf{Computational Efficiency}: AR models fit instantaneously via closed-form solutions (OLS), enabling real-time analysis of thousands of electrodes without GPU resources.
+\end{enumerate} For this approach, we assume that $\mathbb{E}[X_t^2] < \infty$. This condition ensures that the second-order moments required for linear prediction exist.
+
+The justification for this model comes from Wold's Decomposition Theorem \cite{brockwell1991time}. Any zero-mean, non-deterministic stationary time series $X_t$ can be expressed as an infinite moving average representation:
 \begin{equation}
 X_t = \sum_{j=0}^{\infty} \psi_j \varepsilon_{t-j},
 \end{equation}
@@ -339,7 +347,7 @@ Bio-signals often show non-stationarity. We generalize the $\text{AR}(p)$ proces
 \begin{equation}
 X_t = c(t) + \sum_{i=1}^{p} \phi_i(t) X_{t-i} + \varepsilon_t.
 \end{equation}
-The coefficients $\boldsymbol{\phi}_t$ are estimated recursively using Recursive Least Squares (RLS) via the Kalman Filter \cite{kalman1960new}. This allows the model to adapt to changing conditions (e.g., heart rate acceleration).
+The coefficients $\boldsymbol{\phi}_t$ are estimated recursively using Recursive Least Squares (RLS) via the Kalman Filter \cite{Kalman_1960}. This allows the model to adapt to changing conditions (e.g., heart rate acceleration).
 
 One of the main advantages of TVAR is its interpretability. We can visualize how the model adapts its parameters over the 2-second history window. If the coefficients remain flat, the signal was stationary. If they exhibit oscillations, the tissue properties were changing, which may indicate transitions between organized and fractionated activity.
 
@@ -356,6 +364,7 @@ Given the sparsity of EGMs, global MSE can be misleading. We introduce several m
     \item \textbf{Global MSE}: Standard mean squared error over the entire prediction window.
     \item \textbf{Spike MSE}: MSE calculated only on high-amplitude regions (spikes), defined as samples exceeding the $95$-th percentile of amplitude.
     \item \textbf{Normalized MSE (NMSE)}: Defined as $\text{NMSE} = \frac{\text{MSE}}{\text{Var}(y_{\text{target}})}$. This metric normalizes the error by the signal variance, providing an amplitude-invariant measure of prediction difficulty. An $\text{NMSE} = 1$ indicates the model performs no better than predicting the mean; $\text{NMSE} > 1$ indicates the signal is harder to predict than average.
+    \item \textbf{Soft Dynamic Time Warping (SoftDTW) Loss}: We also explored SoftDTW \cite{cuturi2018softdtwdifferentiablelossfunction}, a differentiable variant of Dynamic Time Warping that measures similarity between time series while allowing for temporal shifts. This metric was promising, as it penalizes phase errors less harshly than MSE. However, it was computationally infeasible for our dataset due to its $O(N \cdot M)$ complexity per signal pair.
 \end{itemize}
 
 % 5. Results
@@ -403,14 +412,14 @@ where $y_{\text{target}}$ is the ground truth signal in the prediction window. T
 \subsection{Hypothesis}
 \begin{itemize}
     \item \textbf{Low NMSE} ($< 1$): Organized, predictable tissue. The AR model can track the signal reasonably well, suggesting passively activated or healthy regions.
-    \item \textbf{High NMSE} ($> 1$): Complex, unpredictable tissue. The AR model fails, suggesting Complex Fractionated Atrial Electrograms (CFAEs) or chaotic rotors that are potential ablation targets.
+    \item \textbf{High NMSE} ($> 1$): Complex, unpredictable tissue. The AR model fails, suggesting Complex Fractionated Atrial Electrograms (CFAEs) or drivers that are potential ablation targets.
 \end{itemize}
 
 \subsection{Results of Anomaly Detection}
 We ran the AR model on the entire test set ($\approx 16,000$ electrodes across 12 patients) and computed NMSE for each electrode. The distribution revealed:
 \begin{itemize}
     \item The majority of electrodes cluster around $\text{NMSE} \approx 1$, indicating that EGM signals are normally too stochastic for simple linear forecasting over a 0.5 second horizon.
-    \item A clear \textbf{high-error tail} (up to $\text{NMSE} \approx 20$) identifies \textbf{anomaly candidates}. These are signals significantly more unpredictable than the rest.
+    \item A clear \textbf{high-error tail} identifies \textbf{anomaly candidates}. These are signals significantly more unpredictable than the rest.
     \item A \textbf{low-error tail} ($\text{NMSE} < 1$) emphasizes organized, healthy tissue where rhythmic patterns allow for better predictions.
 \end{itemize}
 
@@ -432,18 +441,49 @@ Visual inspection of the top-ranked (high NMSE) signals confirmed that they exhi
 \end{figure}
 
 \subsection{Candidate Ablation Sites}
-Based on the NMSE ranking, we identified the top 10\% of electrodes by prediction error as \textbf{candidate ablation sites}. These regions, distributed across multiple patients and maps, represent areas where the AR model fails most notably and are therefore hypothesized to correspond to active arrhythmic drivers.
+Based on the NMSE ranking, we identified the top 10\% of electrodes by prediction error as \textbf{candidate ablation sites}. These regions, distributed across multiple patients and maps, represent areas where the AR model fails most severely and are therefore hypothesized to correspond to active arrhythmic drivers.
+
+Table~\ref{tab:ablation_candidates} presents a sample of the most unpredictable (potential arrhythmic drivers) and most predictable (healthy tissue) electrodes from the test set, after excluding three extreme outliers caused by numerical instability in the AR fitting process.
+
+\begin{table}[H]
+\centering
+\caption{Top 5 most unpredictable and most predictable electrodes by NMSE.}
+\label{tab:ablation_candidates}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Patient Date} & \textbf{Map Name} & \textbf{Electrode} & \textbf{NMSE} & \textbf{MSE} \\
+\hline
+\multicolumn{5}{|c|}{\textbf{Most Unpredictable (Potential Arrhythmic Drivers)}} \\
+\hline
+2021\_10\_19 & 1-AI & 0 & 19.55 & 0.0451 \\
+2021\_11\_17 & 1-AI BASAL FA & 244 & 18.28 & 0.0024 \\
+2021\_11\_08 & 1-AI & 445 & 18.04 & 0.0003 \\
+2021\_11\_08 & 1-AI & 4517 & 17.61 & 0.1038 \\
+2021\_10\_18 & 1-1-1-FA & 409 & 14.44 & 0.0001 \\
+\hline
+\multicolumn{5}{|c|}{\textbf{Most Predictable (Healthy / Passively Activated Tissue)}} \\
+\hline
+2021\_11\_08 & 1-AI & 2567 & 0.178 & 0.0022 \\
+2021\_10\_19 & 1-AI & 293 & 0.203 & 0.0001 \\
+2021\_10\_19 & 1-AI & 3218 & 0.246 & 0.0001 \\
+2021\_11\_08 & 1-AI & 2503 & 0.255 & 0.0002 \\
+2021\_11\_08 & 1-AI & 2580 & 0.271 & 0.0001 \\
+\hline
+\end{tabular}
+\end{table}
+
+We can observe that there is a meaningful difference in NMSE between the most unpredictable and most predictable electrodes: the highest NMSE ($19.55$) is nearly 110 times larger than the lowest ($0.178$). Second, the most predictable electrodes are concentrated in a single map (1-AI), suggesting that this region corresponds to healthy, passively activated tissue with regular activation patterns. Third, the candidate ablation sites are from four different patients and multiple maps, showing that the anomaly detection method generalizes across patients and is not biased toward a single recording session or anatomy.
 
 % 6. Conclusions
 \chapter{Conclusions}
-In this study, we explored the use of Autoregressive (AR), ARIMA, and Time-Varying AR (TVAR) models for predicting intracardiac electrogram (EGM) signals and proposed a novel approach for identifying potential ablation targets.
+In this study, we explored the use of Autoregressive (AR), ARIMA, and Time-Varying AR (TVAR) models for predicting intracardiac electrogram (EGM) signals and proposed an approach for identifying ablation targets.
 
 Our analysis leads to the following conclusions:
 \begin{enumerate}
     \item \textbf{Short-term vs. Long-term Prediction}: AR-based models are effective for very short-term prediction (next few samples) but fail to capture the complex, non-linear dynamics required for a $0.5$ second forecast. The models revert to predicting the mean (isoelectric line) after approximately 100 ms.
-    \item \textbf{Spike Prediction Limitation}: The models struggle to predict the sharp activations (spikes) that are clinically relevant. Increasing complexity from AR to ARIMA or TVAR provided marginal improvement.
+    \item \textbf{Spike Prediction Limitation}: The models struggle to predict the sharp activations (spikes) that are clinically relevant. Increasing complexity from AR to ARIMA or TVAR provided little improvement.
     \item \textbf{Prediction Error as a Biomarker}: We demonstrated that the \textbf{Normalized MSE (NMSE)} serves as a measure of signal "unpredictability." High NMSE values correlate with complex, fractionated activity (potential arrhythmic drivers), while low NMSE values correspond to organized, discrete spikes (healthy tissue).
-    \item \textbf{Clinical Application}: By ranking electrodes by NMSE, we identified candidate ablation sites, regions where the AR model fails most dramatically.
+    \item \textbf{Clinical Application}: By ranking electrodes by NMSE, we identified candidate ablation sites, regions where the AR model fails most severely.
 \end{enumerate}
 
 \section{Limitations}

@@ -1,10 +1,17 @@
 \begin{thebibliography}{1}
 
-\bibitem{wold1938study}
-H.~Wold, {\em A Study in the Analysis of Stationary Time Series}.
-\newblock Almqvist \& Wiksell, 1938.
+\bibitem{brockwell1991time}
+P.~J. Brockwell and R.~A. Davis, {\em Time Series: Theory and Methods}.
+\newblock Springer Series in Statistics, New York: Springer-Verlag, second~ed.,
+  1991.
+\newblock Section 5.7.
 
-\bibitem{kalman1960new}
-R.~E. Kalman, ``A new approach to linear filtering and prediction problems,'' {\em Journal of Basic Engineering}, vol.~82, no.~1, pp.~35--45, 1960.
+\bibitem{Kalman_1960}
+R.~E. Kalman, ``A new approach to linear filtering and prediction problems,''
+  {\em Journal of Basic Engineering}, vol.~82, no.~1, p.~35, 1960.
+
+\bibitem{cuturi2018softdtwdifferentiablelossfunction}
+M.~Cuturi and M.~Blondel, ``Soft-dtw: a differentiable loss function for
+  time-series,'' 2018.
 
 \end{thebibliography}
